@@ -1,0 +1,30 @@
+syntax = "v1"
+info(
+    title: "商品服务"
+    desc: "商品服务"
+    author: "Linlin"
+    email: "185749451291@163.com"
+    version: "v1"
+)
+
+import (
+    "product/prod.api"
+)
+
+@server (
+    prefix: prouct/v1
+    jwt: JwtAuth
+)
+service Product{
+    @handler Create
+    post /product(CreateProductRequest)returns(CreateProductReponse)
+
+    @handler Update
+    put /product (UpdateRequest) returns (UpdateResponse)
+
+    @handler Remove
+    delete /product (RemoveRequest) returns (RemoveResponse)
+
+    @handler Detail
+    post /product/detial() returns ()
+}
