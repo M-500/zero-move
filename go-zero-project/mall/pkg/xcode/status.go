@@ -2,8 +2,8 @@ package xcode
 
 import (
 	"context"
-	"enterprise360/pkg/xcode/types"
 	"fmt"
+	"mall/pkg/xcode/types"
 	"strconv"
 
 	"github.com/golang/protobuf/ptypes"

@@ -1,7 +1,7 @@
 package xcode
 
 import (
-	"enterprise360/pkg/xcode/types"
+	"mall/pkg/xcode/types"
 	"net/http"
 )
 
