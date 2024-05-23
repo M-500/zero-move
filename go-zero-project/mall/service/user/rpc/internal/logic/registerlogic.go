@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"mall/service/user/dao"
 
 	"mall/service/user/rpc/internal/svc"
 	"mall/service/user/rpc/types/user"
@@ -24,7 +25,17 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 }
 
 func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterResponse, error) {
-	// todo: add your logic here and delete this line
-
-	return &user.RegisterResponse{}, nil
+	userEntity := dao.UserModel{
+		Name:     in.Name,
+		Mobile:   in.Mobile,
+		Gender:   in.Gender,
+		Password: in.Password,
+	}
+	res, err := l.svcCtx.UserDao.Insert(l.ctx, userEntity)
+	if err != nil {
+		return nil, err
+	}
+	return &user.RegisterResponse{
+		Id: res,
+	}, nil
 }
