@@ -32,7 +32,10 @@ func SetUpMySQL(conf *Config) (*DBX, error) {
 	sdb.SetMaxIdleConns(conf.MaxIdleConns)
 	sdb.SetMaxOpenConns(conf.MaxOpenConns)
 	sdb.SetConnMaxLifetime(time.Second * time.Duration(conf.MaxLifetime))
-
+	err = db.Use(NewCustomerPlugin())
+	if err != nil {
+		return nil, err
+	}
 	return &DBX{DB: db}, nil
 }
 
