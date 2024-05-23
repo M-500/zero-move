@@ -2,3 +2,54 @@ syntax="proto3";
 
 package product;
 
+option go_package="./product";
+
+
+service Product{
+  rpc Create(ProdRequest) returns(ProdResponse);
+  rpc Update(UpdateProdRequest) returns (UpdateProdResponse);
+  rpc Remove(RemoveProdRequest) returns (RemoveProdResponse);
+  rpc Detail(DetailProdRequest) returns(DetailProdResponse);
+}
+
+message ProdRequest{
+  string Name = 1;
+  string Desc = 2;
+  int64 Stock = 3;
+  int64 Amount = 4;
+  int64 Status = 5;
+}
+message ProdResponse{
+  int64 id = 1;
+}
+
+message UpdateProdRequest{
+  int64 id = 1;
+  string Name = 2;
+  string Desc = 3;
+  int64 Stock = 4;
+  int64 Amount = 5;
+  int64 Status = 6;
+}
+message UpdateProdResponse{
+
+}
+
+message RemoveProdRequest{
+  int64 id = 1;
+}
+message RemoveProdResponse{
+
+}
+
+message DetailProdRequest{
+  int64 id = 1;
+}
+message DetailProdResponse{
+  int64 id = 1;
+  string Name = 2;
+  string Desc = 3;
+  int64 Stock = 4;
+  int64 Amount = 5;
+  int64 Status = 6;
+}

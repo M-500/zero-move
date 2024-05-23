@@ -1,0 +1,63 @@
+services:
+  mysql8:
+    image: mysql:8.0.29
+    restart: always
+    command:
+      #      - 加入参数，设置 binlog 和主节点
+      - --default_authentication_plugin=mysql_native_password
+      - --binlog-format=ROW
+      - --server-id=1
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      #      - 外部访问用 13316
+      - 13316:3306
+
+  redis:
+    image: "bitnami/redis:latest"
+    restart: always
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - '6379:6379'
+
+  etcd:
+    image: "bitnami/etcd:latest"
+    restart: always
+    environment:
+      - ALLOW_NONE_AUTHENTICATION=yes
+    ports:
+      - "12379:2379"
+  #jaeger链路追踪 — Jaeger for tracing
+  jaeger:
+    image: jaegertracing/all-in-one:1.42.0
+    container_name: jaeger
+    restart: always
+    ports:
+      - "5775:5775/udp"
+      - "6831:6831/udp"
+      - "6832:6832/udp"
+      - "5778:5778"
+      - "16686:16686"
+      - "14268:14268"
+      - "9411:9411"
+    environment:
+      - SPAN_STORAGE_TYPE=elasticsearch
+      - ES_SERVER_URLS=http://127.0.0.1:9200
+      - LOG_LEVEL=debug
+
+  #搜集kafka业务日志、存储prometheus监控数据 - Kafka for collecting business logs and storing Prometheus monitoring data
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.4
+    container_name: elasticsearch
+    user: root
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./data/elasticsearch/data:/usr/share/elasticsearch/data
+    restart: always
+    ports:
+      - 9200:9200
+      - 9300:9300
