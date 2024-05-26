@@ -21,16 +21,38 @@ var (
 	errLockNotHold         = errors.New("redis-lock:没有持有锁")
 	//go:embed script/unlock.lua
 	unlockLua string
+
+	//go:embed script/refresh.lua
+	refreshLua string
 )
 
 type Client struct {
 	client redis.Cmdable
 }
 
+func NewClient(client redis.Cmdable) *Client {
+	return &Client{client: client}
+}
+
 type Lock struct {
 	key    string
 	value  string
 	client redis.Cmdable
+}
+
+func (l *Lock) Refresh(ctx context.Context, expire time.Duration) error {
+	result, err := l.client.Eval(ctx, refreshLua, []string{l.key}, l.value, expire).Int64()
+	// 如果命令执行出错，可能会进入下面的分支
+	if errors.Is(err, redis.Nil) {
+		return errLockNotHold
+	}
+	if err != nil {
+		return err
+	}
+	if result != 1 {
+		return errLockNotExist
+	}
+	return nil
 }
 
 // Unlock
@@ -56,7 +78,7 @@ func (l *Lock) Unlock(ctx context.Context) error {
 	//	// 代表你加的锁 过期了
 	//	return errLockNotExist
 	//} // 这么写也有问题，很容易释放掉不属于自己的锁
-	result, err := l.client.Eval(ctx, unlockLua, []string{l.key}, []string{l.value}).Int64()
+	result, err := l.client.Eval(ctx, unlockLua, []string{l.key}, l.value).Int64()
 	// 如果命令执行出错，可能会进入下面的分支
 	if errors.Is(err, redis.Nil) {
 		return errLockNotHold
