@@ -8,6 +8,7 @@ package redis_lock
 
 import (
 	"context"
+	_ "embed"
 	"errors"
 	"github.com/nu7hatch/gouuid"
 	"github.com/redis/go-redis/v9"
@@ -17,6 +18,9 @@ import (
 var (
 	errFailedToPreemptLock = errors.New("redis-lock: 抢锁失败")
 	errLockNotExist        = errors.New("redis-lock:锁不存在")
+	errLockNotHold         = errors.New("redis-lock:没有持有锁")
+	//go:embed script/unlock.lua
+	unlockLua string
 )
 
 type Client struct {
@@ -43,13 +47,24 @@ func (l *Lock) Unlock(ctx context.Context) error {
 	//	// 说明锁不是自己的锁  这里不能这么写！！
 	//	return err
 	//}// 这么写有问题，并发不安全
-	// 只能用lua脚本
-	result, err := l.client.Del(ctx, l.key).Result()
+
+	//result, err := l.client.Del(ctx, l.key).Result()
+	//if err != nil {
+	//	return err
+	//}
+	//if result != 1 {
+	//	// 代表你加的锁 过期了
+	//	return errLockNotExist
+	//} // 这么写也有问题，很容易释放掉不属于自己的锁
+	result, err := l.client.Eval(ctx, unlockLua, []string{l.key}, []string{l.value}).Int64()
+	// 如果命令执行出错，可能会进入下面的分支
+	if errors.Is(err, redis.Nil) {
+		return errLockNotHold
+	}
 	if err != nil {
 		return err
 	}
 	if result != 1 {
-		// 代表你加的锁 过期了
 		return errLockNotExist
 	}
 	return nil
@@ -70,8 +85,9 @@ func (c *Client) TryLock(ctx context.Context, key string, expiration time.Durati
 		return nil, errFailedToPreemptLock
 	}
 	return &Lock{
-		key:   key,
-		value: uuidBt.String(),
+		client: c.client,
+		key:    key,
+		value:  uuidBt.String(),
 	}, err
 }
 
