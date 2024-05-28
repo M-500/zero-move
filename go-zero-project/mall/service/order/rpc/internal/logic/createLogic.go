@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"mall/service/order/rpc/repository/dao/model"
 
 	"mall/service/order/rpc/internal/svc"
 	"mall/service/order/rpc/types/order"
@@ -24,7 +25,16 @@ func NewCreateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateLogi
 }
 
 func (l *CreateLogic) Create(in *order.CreateOrderRequest) (*order.CreateResponse, error) {
-	// todo: add your logic here and delete this line
-
-	return &order.CreateResponse{}, nil
+	id, err := l.svcCtx.OrderDao.Insert(l.ctx, model.OrderModel{
+		Uid:    in.Uid,
+		Pid:    in.Pid,
+		Amount: float64(in.Amount),
+		Status: int(in.Status),
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &order.CreateResponse{
+		Id: id,
+	}, nil
 }

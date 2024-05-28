@@ -18,7 +18,11 @@ type OrderDAO interface {
 }
 
 type orderDAO struct {
-	DB gorm.DB
+	DB *gorm.DB
+}
+
+func NewOrderDAO(DB *gorm.DB) OrderDAO {
+	return &orderDAO{DB: DB}
 }
 
 func (o *orderDAO) Insert(ctx context.Context, data model.OrderModel) (int64, error) {

@@ -24,7 +24,7 @@ func NewDetailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DetailLogi
 }
 
 func (l *DetailLogic) Detail(in *order.DetailRequest) (*order.DetailResponse, error) {
-	// todo: add your logic here and delete this line
+	// todo: add your logic here and delete this line https://juejin.cn/post/7036011643737735198#heading-0
 
 	return &order.DetailResponse{}, nil
 }
