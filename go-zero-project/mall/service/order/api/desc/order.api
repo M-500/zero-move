@@ -1,0 +1,32 @@
+syntax = "v1"
+
+info (
+    title:   "订单服务"
+    desc:    "订单服务"
+    author:  "Linlin"
+    email:   "185749451291@163.com"
+    version: "v1"
+)
+import (
+    "order/order.api"
+)
+
+@server(
+    jwt: Auth
+)
+service Order {
+    @handler Create
+    post /api/order/create(CreateRequest) returns (CreateResponse)
+
+    @handler Update
+    post /api/order/update(UpdateRequest) returns (UpdateResponse)
+
+    @handler Remove
+    post /api/order/remove(RemoveRequest) returns (RemoveResponse)
+
+    @handler Detail
+    post /api/order/detail(DetailRequest) returns (DetailResponse)
+
+    @handler List
+    post /api/order/list(ListRequest) returns (ListResponse)
+}
