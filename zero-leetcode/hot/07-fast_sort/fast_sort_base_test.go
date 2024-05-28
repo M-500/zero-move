@@ -6,11 +6,11 @@ import "testing"
 // @Author 代码小学生王木木
 
 func TestThreeColor(t *testing.T) {
-	arr := []int{3, 7, 5, 2, 1, 4, 8}
-	ThreeColorV1(arr, 4)
-	t.Log(arr)
+	//arr := []int{3, 7, 5, 2, 1, 4, 8}
+	//ThreeColorV1(arr, 4)
+	//t.Log(arr)
 	arr1 := []int{3, 7, 5, 2, 1, 4, 8, 12, 1, 2, 3, 122}
-	ThreeColorV1(arr1, 4)
+	ThreeColorV2(arr1, 4)
 	t.Log(arr1)
 }
 
@@ -25,6 +25,29 @@ func ThreeColorV1(arr []int, target int) []int {
 			arr[i], arr[x+1] = arr[x+1], arr[i]
 			x++
 			continue
+		}
+	}
+	return arr
+}
+
+func ThreeColorV2(arr []int, target int) []int {
+	arrLen := len(arr)
+	if arrLen <= 1 {
+		return arr
+	}
+	x := -1 // 用于记录第一个大于等于目标的下表
+	y := arrLen
+	for i := 0; i < arrLen; i++ {
+		if arr[i] < target {
+			arr[i], arr[x+1] = arr[x+1], arr[i]
+			x++
+			continue
+		}
+	}
+	for i := 0; i < arrLen; i++ {
+		if arr[i] > target {
+			arr[i], arr[y-1] = arr[y-1], arr[i]
+			y--
 		}
 	}
 	return arr
