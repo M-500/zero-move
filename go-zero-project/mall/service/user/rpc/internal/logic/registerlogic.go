@@ -43,6 +43,9 @@ func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterRespon
 		return nil, err
 	}
 	return &user.RegisterResponse{
-		Id: res,
+		Id:     res,
+		Name:   in.Name,
+		Gender: in.Gender,
+		Mobile: in.Mobile,
 	}, nil
 }

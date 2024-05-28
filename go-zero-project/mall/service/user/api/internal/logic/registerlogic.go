@@ -34,6 +34,10 @@ func (l *RegisterLogic) Register(req *types.RegisterRequest) (resp *types.Regist
 	if err != nil {
 		return nil, err
 	}
-	resp.Id = res.Id
-	return resp, nil
+	return &types.RegisterResponse{
+		Id:     res.Id,
+		Name:   res.Name,
+		Gender: res.Gender,
+		Mobile: res.Mobile,
+	}, nil
 }
