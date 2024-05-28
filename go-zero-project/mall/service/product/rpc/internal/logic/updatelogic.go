@@ -2,7 +2,6 @@ package logic
 
 import (
 	"context"
-
 	"mall/service/product/rpc/internal/svc"
 	"mall/service/product/rpc/types/product"
 
@@ -24,7 +23,29 @@ func NewUpdateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateLogi
 }
 
 func (l *UpdateLogic) Update(in *product.UpdateProdRequest) (*product.UpdateProdResponse, error) {
-	// todo: add your logic here and delete this line
-
+	// todo: 会有并发问题的写法
+	res, err := l.svcCtx.ProductDao.FindById(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
+	if in.Name != "" {
+		res.Name = in.Name
+	}
+	if in.Desc != "" {
+		res.Desc = in.Desc
+	}
+	if in.Stock != 0 {
+		res.Stock = in.Stock
+	}
+	if in.Amount != 0 {
+		res.Amount = float64(in.Amount)
+	}
+	if in.Status != 0 {
+		res.Status = int(in.Status)
+	}
+	err = l.svcCtx.ProductDao.Update(l.ctx, res)
+	if err != nil {
+		return nil, err
+	}
 	return &product.UpdateProdResponse{}, nil
 }

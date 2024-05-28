@@ -24,7 +24,16 @@ func NewDetailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DetailLogi
 }
 
 func (l *DetailLogic) Detail(in *product.DetailProdRequest) (*product.DetailProdResponse, error) {
-	// todo: add your logic here and delete this line
-
-	return &product.DetailProdResponse{}, nil
+	res, err := l.svcCtx.ProductDao.FindById(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
+	return &product.DetailProdResponse{
+		Id:     int64(res.ID),
+		Name:   res.Name,
+		Desc:   res.Desc,
+		Stock:  res.Stock,
+		Amount: int64(res.Amount),
+		Status: int64(res.Status),
+	}, nil
 }
