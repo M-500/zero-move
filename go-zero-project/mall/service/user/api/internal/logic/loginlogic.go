@@ -42,7 +42,8 @@ func (l *LoginLogic) Login(req *types.LoginRequest) (resp *types.LoginResponse, 
 	if err != nil {
 		return nil, err
 	}
-	resp.AccessExpire = accessExpire
-	resp.AccessToken = accessToken
-	return
+	return &types.LoginResponse{
+		AccessToken:  accessToken,
+		AccessExpire: accessExpire,
+	}, nil
 }

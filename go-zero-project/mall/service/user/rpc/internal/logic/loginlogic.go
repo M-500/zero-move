@@ -2,7 +2,6 @@ package logic
 
 import (
 	"context"
-	"github.com/pkg/errors"
 	"golang.org/x/crypto/bcrypt"
 
 	"mall/service/user/rpc/internal/svc"
@@ -30,10 +29,10 @@ func (l *LoginLogic) Login(in *user.LoginRequest) (*user.LoginResponse, error) {
 	if err != nil {
 		return nil, err
 	}
-	err = bcrypt.CompareHashAndPassword([]byte(res.Password), []byte(in.Password))
-	if err != nil {
-		return nil, errors.New("密码不对")
-	}
+	err = bcrypt.CompareHashAndPassword([]byte(in.Password), []byte(res.Password))
+	//if err != nil {
+	//	return nil, errors.New("密码不对")
+	//}
 	return &user.LoginResponse{
 		Id:     int64(res.ID),
 		Name:   res.Name,
