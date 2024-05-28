@@ -1,0 +1,48 @@
+syntax="proto3";
+
+package pay;
+
+option go_package="./pay";
+
+
+service Pay {
+  rpc Create(CreateRequest)returns(CreateResponse);
+  rpc Detail(DetailRequest) returns(DetailResponse);
+  rpc Callback(CallbackRequest) returns(CallbackResponse);
+}
+
+message CreateRequest{
+  int64 Uid = 1; // 用户id
+  int64 Oid = 2;  // 订单id
+  int64 Amount = 3;  // 价格
+}
+message CreateResponse{
+  int64 id = 1;  // 支付结果id
+}
+
+
+message DetailRequest{
+  int64 id = 1;  // 支付结果id
+}
+
+message DetailResponse{
+  int64 id = 1;
+  int64 Uid = 2;
+  int64 Oid = 3;
+  int64 Amount = 4;
+  int64 Source = 5;
+  int64 Status = 6;
+}
+
+// 支付详情
+message CallbackRequest {
+  int64 id = 1;
+  int64 Uid = 2;
+  int64 Oid = 3;
+  int64 Amount = 4;
+  int64 Source = 5;
+  int64 Status = 6;
+}
+message CallbackResponse {
+}
+// 支付详情
