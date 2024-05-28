@@ -9,6 +9,9 @@ func TestThreeColor(t *testing.T) {
 	arr := []int{3, 7, 5, 2, 1, 4, 8}
 	ThreeColorV1(arr, 4)
 	t.Log(arr)
+	arr1 := []int{3, 7, 5, 2, 1, 4, 8, 12, 1, 2, 3, 122}
+	ThreeColorV1(arr1, 4)
+	t.Log(arr1)
 }
 
 func ThreeColorV1(arr []int, target int) []int {
