@@ -43,7 +43,7 @@ func (p *productDao) DeleteById(ctx context.Context, id int64) error {
 }
 
 func (p *productDao) Update(ctx context.Context, data model.ProductModel) error {
-	return p.DB.WithContext(ctx).Model(&model.ProductModel{}).Updates(&data).Error
+	return p.DB.WithContext(ctx).Model(&model.ProductModel{}).Where("id = ?", data.ID).Updates(&data).Error
 }
 
 func (p *productDao) UpdateSet(ctx context.Context, data model.ProductModel) error {
