@@ -2,6 +2,8 @@ package logic
 
 import (
 	"context"
+	"github.com/pkg/errors"
+	"golang.org/x/crypto/bcrypt"
 
 	"mall/service/user/rpc/internal/svc"
 	"mall/service/user/rpc/types/user"
@@ -24,7 +26,18 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 }
 
 func (l *LoginLogic) Login(in *user.LoginRequest) (*user.LoginResponse, error) {
-	// todo: add your logic here and delete this line
-
-	return &user.LoginResponse{}, nil
+	res, err := l.svcCtx.UserDao.FindByUserName(l.ctx, in.GetMobile())
+	if err != nil {
+		return nil, err
+	}
+	err = bcrypt.CompareHashAndPassword([]byte(res.Password), []byte(in.Password))
+	if err != nil {
+		return nil, errors.New("密码不对")
+	}
+	return &user.LoginResponse{
+		Id:     int64(res.ID),
+		Name:   res.Name,
+		Gender: res.Gender,
+		Mobile: res.Mobile,
+	}, nil
 }

@@ -2,7 +2,6 @@ package logic
 
 import (
 	"context"
-
 	"mall/service/user/rpc/internal/svc"
 	"mall/service/user/rpc/types/user"
 
@@ -24,7 +23,15 @@ func NewUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserInfo
 }
 
 func (l *UserInfoLogic) UserInfo(in *user.UserInfoRequest) (*user.UserInfoResponse, error) {
-	// todo: add your logic here and delete this line
+	res, err := l.svcCtx.UserDao.FindById(l.ctx, in.GetId())
+	if err != nil {
+		return nil, err
+	}
 
-	return &user.UserInfoResponse{}, nil
+	return &user.UserInfoResponse{
+		Id:     int64(res.ID),
+		Name:   res.Name,
+		Gender: res.Gender,
+		Mobile: res.Mobile,
+	}, nil
 }
