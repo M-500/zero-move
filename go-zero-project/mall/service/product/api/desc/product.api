@@ -27,6 +27,6 @@ service Product {
 	delete /product (RemoveRequest) returns (RemoveResponse)
 
 	@handler Detail
-	post /product/detial
+	post /product/detial (DetailRequest) returns (DetailResponse)
 }
 

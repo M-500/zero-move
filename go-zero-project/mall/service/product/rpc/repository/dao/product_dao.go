@@ -13,6 +13,7 @@ type ProductDao interface {
 	Insert(ctx context.Context, data model.ProductModel) (int64, error)
 	FindById(ctx context.Context, id int64) (model.ProductModel, error)
 	Update(ctx context.Context, data model.ProductModel) error
+	UpdateSet(ctx context.Context, data model.ProductModel) error
 	DeleteById(ctx context.Context, id int64) error
 }
 
@@ -42,5 +43,15 @@ func (p *productDao) DeleteById(ctx context.Context, id int64) error {
 }
 
 func (p *productDao) Update(ctx context.Context, data model.ProductModel) error {
-	return nil
+	return p.DB.WithContext(ctx).Model(&model.ProductModel{}).Updates(&data).Error
+}
+
+func (p *productDao) UpdateSet(ctx context.Context, data model.ProductModel) error {
+	return p.DB.WithContext(ctx).Model(&model.ProductModel{}).Where("id = ?", data.ID).Updates(map[string]any{
+		"name":   data.Name,
+		"desc":   data.Desc,
+		"amount": data.Amount,
+		"stock":  data.Stock,
+		"Status": data.Status,
+	}).Error
 }
