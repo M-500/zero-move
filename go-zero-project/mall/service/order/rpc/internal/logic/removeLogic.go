@@ -24,7 +24,9 @@ func NewRemoveLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RemoveLogi
 }
 
 func (l *RemoveLogic) Remove(in *order.RemoveRequest) (*order.RemoveResponse, error) {
-	// todo: add your logic here and delete this line
-
+	err := l.svcCtx.OrderDao.Delete(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
 	return &order.RemoveResponse{}, nil
 }

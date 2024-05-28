@@ -25,6 +25,15 @@ func NewDetailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DetailLogi
 
 func (l *DetailLogic) Detail(in *order.DetailRequest) (*order.DetailResponse, error) {
 	// todo: add your logic here and delete this line https://juejin.cn/post/7036011643737735198#heading-0
-
-	return &order.DetailResponse{}, nil
+	res, err := l.svcCtx.OrderDao.FindById(l.ctx, in.Id)
+	if err != nil {
+		return nil, err
+	}
+	return &order.DetailResponse{
+		Id:     int64(res.ID),
+		Uid:    res.Uid,
+		Pid:    res.Pid,
+		Amount: int64(res.Amount),
+		Status: int64(res.Status),
+	}, nil
 }

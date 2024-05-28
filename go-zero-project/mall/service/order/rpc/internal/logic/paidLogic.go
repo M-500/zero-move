@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"errors"
 
 	"mall/service/order/rpc/internal/svc"
 	"mall/service/order/rpc/types/order"
@@ -24,7 +25,15 @@ func NewPaidLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PaidLogic {
 }
 
 func (l *PaidLogic) Paid(in *order.PaidRequest) (*order.PaidResponse, error) {
-	// todo: add your logic here and delete this line
-
+	// TODO：并发不安全的修改
+	res, err := l.svcCtx.OrderDao.FindById(l.ctx, in.Id)
+	if err != nil {
+		return nil, errors.New("订单ID不存在")
+	}
+	res.Status = 1 // 更新支付状态
+	err = l.svcCtx.OrderDao.Update(l.ctx, res)
+	if err != nil {
+		return nil, err
+	}
 	return &order.PaidResponse{}, nil
 }
