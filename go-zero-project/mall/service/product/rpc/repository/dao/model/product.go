@@ -10,6 +10,7 @@ type ProductModel struct {
 	Name   string  `gorm:"type:varchar(128);comment:'商品名称'"`
 	Desc   string  `gorm:"type:varchar(128);comment:'商品描述'"`
 	Amount float64 `gorm:"type:decimal(10,2);comment:'商品价格'"`
+	Stock  int64   `gorm:"type:int;comment:产品库存"`
 	Status int     `gorm:"type:tinyint;comment:'产品状态'"`
 }
 
