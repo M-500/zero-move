@@ -2,7 +2,6 @@ package logic
 
 import (
 	"context"
-
 	"mall/service/pay/rpc/internal/svc"
 	"mall/service/pay/rpc/types/pay"
 
@@ -24,7 +23,6 @@ func NewCallbackLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Callback
 }
 
 func (l *CallbackLogic) Callback(in *pay.CallbackRequest) (*pay.CallbackResponse, error) {
-	// todo: add your logic here and delete this line
 
 	return &pay.CallbackResponse{}, nil
 }
