@@ -10,8 +10,10 @@ import (
 // @Author 代码小学生王木木
 
 type PayDao interface {
-	FindById(ctx context.Context, oid int64) (model.PayModel, error)
+	FindByOrderId(ctx context.Context, oid int64) (model.PayModel, error)
+	FindById(ctx context.Context, id int64) (model.PayModel, error)
 	Insert(ctx context.Context, data model.PayModel) (int64, error)
+	Update(ctx context.Context, data model.PayModel) error
 }
 
 type payDao struct {
@@ -24,9 +26,17 @@ func NewPayDao(db *gorm.DB) PayDao {
 	}
 }
 
-func (p *payDao) FindById(ctx context.Context, oid int64) (model.PayModel, error) {
+func (p *payDao) FindByOrderId(ctx context.Context, oid int64) (model.PayModel, error) {
 	var pay model.PayModel
 	err := p.DB.WithContext(ctx).Model(&model.PayModel{}).Where("oid = ?", oid).Find(&pay).Error
+	if err != nil {
+		return model.PayModel{}, err
+	}
+	return pay, nil
+}
+func (p *payDao) FindById(ctx context.Context, id int64) (model.PayModel, error) {
+	var pay model.PayModel
+	err := p.DB.WithContext(ctx).Model(&model.PayModel{}).Where("id = ?", id).Find(&pay).Error
 	if err != nil {
 		return model.PayModel{}, err
 	}
@@ -39,4 +49,7 @@ func (p *payDao) Insert(ctx context.Context, data model.PayModel) (int64, error)
 		return 0, err
 	}
 	return int64(data.ID), nil
+}
+func (p *payDao) Update(ctx context.Context, data model.PayModel) error {
+	return p.DB.WithContext(ctx).Model(&model.PayModel{}).Updates(&data).Error
 }

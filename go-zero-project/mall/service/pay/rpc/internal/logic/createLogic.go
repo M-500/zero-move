@@ -39,7 +39,7 @@ func (l *CreateLogic) Create(in *pay.CreateRequest) (*pay.CreateResponse, error)
 		return nil, errors.New("订单不存在")
 	}
 	// 3. 查询订单是否已经支付
-	res, err := l.svcCtx.PayDao.FindById(l.ctx, in.Oid)
+	res, err := l.svcCtx.PayDao.FindByOrderId(l.ctx, in.Oid)
 	if err == nil {
 		if res.Status == 1 {
 			return nil, errors.New("订单已经支付")
