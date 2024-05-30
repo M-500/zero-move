@@ -1,0 +1,10 @@
+syntax="proto3";
+
+package dump;
+
+option go_package ="./dump";
+
+service Dump{
+  // 1. 解析文件
+
+}
