@@ -52,11 +52,7 @@ type (
 		Uid int64 `json:"uid"`
 	}
 	ListResponse {
-		Id     int64 `json:"id"`
-		Uid    int64 `json:"uid"`
-		Pid    int64 `json:"pid"`
-		Amount int64 `json:"amount"`
-		Status int64 `json:"status"`
+		Data []DetailResponse `json:"data"`
 	}
     // 订单列表
 )
