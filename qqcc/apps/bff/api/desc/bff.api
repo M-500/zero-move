@@ -1,0 +1,33 @@
+syntax = "v1"
+
+info (
+    title:   "订单服务"
+    desc:    "订单服务"
+    author:  "Linlin"
+    email:   "185749451291@163.com"
+    version: "v1"
+)
+
+import (
+    "user/user_form.api"
+)
+
+
+service User {
+// 用户登录接口
+    @handler Login
+    post /api/user/login (LoginRequest) returns (LoginResponse)
+//用户注册接口
+    @handler Register
+    post /api/user/register (RegisterRequest) returns (RegisterResponse)
+}
+
+@server (
+    jwt: Auth
+)
+service User {
+// 通过ID获取用户信息接口
+    @handler UserInfo
+    post /api/user/userinfo returns (UserInfoResponse)
+}
+
