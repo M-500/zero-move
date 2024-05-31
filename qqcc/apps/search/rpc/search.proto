@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package search;
+
+option go_package="./search";
+
+
+service SearchSvc{
+  rpc NormalSearch(NormalSearchRequest)returns (NormalSearchResponse);
+}
+
+message NormalSearchRequest{
+
+}
+
+message NormalSearchResponse{
+
+}
