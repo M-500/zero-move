@@ -6,7 +6,7 @@ import (
 	"github.com/xuri/excelize/v2"
 	"github.com/zeromicro/go-zero/core/threading"
 	"os"
-	"qqcc/apps/dump/rpc/domain"
+	"qqcc/apps/dump/domain"
 	"strings"
 	"time"
 
