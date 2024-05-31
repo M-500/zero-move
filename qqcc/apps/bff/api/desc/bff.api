@@ -9,6 +9,7 @@ info (
 )
 
 import (
+    "dump/parser_form.api"
     "user/user_form.api"
 )
 
@@ -23,11 +24,16 @@ service User {
 }
 
 @server (
+    prefix: api/v1  // 通用前缀
     jwt: Auth
 )
 service User {
 // 通过ID获取用户信息接口
     @handler UserInfo
-    post /api/user/userinfo returns (UserInfoResponse)
+    post /user/userinfo returns (UserInfoResponse)
+
+// 解析Excel接口
+    @handler ParseExcel
+    post /excel/parse (ParseExcelRequest)returns (ParseExcelResponse)
 }
 
