@@ -1,8 +1,8 @@
 syntax = "v1"
 
 info (
-    title:   "订单服务"
-    desc:    "订单服务"
+    title:   "BFF层"
+    desc:    "BFF层"
     author:  "Linlin"
     email:   "185749451291@163.com"
     version: "v1"
@@ -15,6 +15,8 @@ import (
 
 
 service User {
+// 获取图片验证码的接口
+
 // 用户登录接口
     @handler Login
     post /api/user/login (LoginRequest) returns (LoginResponse)
