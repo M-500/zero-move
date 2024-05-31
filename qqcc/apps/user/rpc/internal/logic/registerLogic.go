@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"qqcc/apps/user/rpc/internal/dao"
 
 	"qqcc/apps/user/rpc/internal/svc"
 	"qqcc/apps/user/rpc/types/user"
@@ -24,7 +25,27 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 }
 
 func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterResponse, error) {
-	// todo: add your logic here and delete this line
+	res, err := l.svcCtx.UserDao.Insert(l.ctx, dao.UserModel{
+		Name:     in.GetUsername(),
+		Mobile:   in.GetMobile(),
+		Gender:   in.GetGender(),
+		Password: in.GetPassword(),
+		IsAdmin:  0,
+		Avatar:   "",
+		CreateId: 0,
+	})
+	if err == dao.ErrUserDuplicate {
+		return nil, err
+	}
+	if err != nil {
+		l.Logger.Error("[register User RPC]创建用户数据库异常", err)
+		return nil, err
+	}
 
-	return &user.RegisterResponse{}, nil
+	return &user.RegisterResponse{
+		Id:       res,
+		Username: in.GetUsername(),
+		Gender:   in.GetGender(),
+		Mobile:   in.GetMobile(),
+	}, nil
 }
