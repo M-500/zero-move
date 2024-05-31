@@ -3,10 +3,9 @@ package logic
 import (
 	"context"
 	"encoding/json"
+	"qqcc/apps/dump/mq/internal/svc"
+	"qqcc/apps/dump/mq/internal/types"
 	"strconv"
-
-	"beyond/application/article/mq/internal/svc"
-	"beyond/application/article/mq/internal/types"
 
 	"github.com/zeromicro/go-queue/kq"
 	"github.com/zeromicro/go-zero/core/logx"
