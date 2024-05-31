@@ -11,7 +11,7 @@ import (
 	"testing"
 )
 
-func TestGin01(t *testing.T) {
+func TestGin02(t *testing.T) {
 	route := gin.Default()
 	route.GET("/hello", func(c *gin.Context) {
 		c.JSON(200, gin.H{
