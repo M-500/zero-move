@@ -1,0 +1,10 @@
+Name: dump.rpc
+ListenOn: 0.0.0.0:20001
+Etcd:
+  Hosts:
+  - 127.0.0.1:12379
+  Key: dump.rpc
+KqPusherConf:
+  Brokers:
+    - 127.0.0.1:9092
+  Topic: topic-enterprise-dump

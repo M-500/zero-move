@@ -1,0 +1,16 @@
+Name: mq
+
+KqConsumerConf:
+  Name: company-kq-consumer
+  Brokers:
+    - 127.0.0.1:9092
+  Group: group-company-dump
+  Topic: topic-company-dump
+  Offset: last
+  Consumers: 1
+  Processors: 1
+DB:
+  DataSource: "root:root@tcp(127.0.0.1:13316)/mall?parseTime=true&loc=Local"
+  MaxIdleConns: 10
+  MaxOpenConns: 100
+  ConnMaxLifetime: 3600

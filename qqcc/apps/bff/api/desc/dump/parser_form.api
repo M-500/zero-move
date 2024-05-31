@@ -1,0 +1,11 @@
+
+type (
+    // 解析excel请求
+    ParseExcelRequest{
+        FileName string `json:"fileName"`
+        FilePath string `json:"filePath"`
+    }
+    ParseExcelResponse{
+
+    }
+)
