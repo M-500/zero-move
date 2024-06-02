@@ -3,6 +3,7 @@ package logic
 import (
 	"context"
 	"errors"
+	"golang.org/x/crypto/bcrypt"
 	"qqcc/apps/user/rpc/internal/dao"
 
 	"qqcc/apps/user/rpc/internal/svc"
@@ -26,11 +27,15 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 }
 
 func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterResponse, error) {
+	hash, err := bcrypt.GenerateFromPassword([]byte(in.GetPassword()), bcrypt.DefaultCost)
+	if err != nil {
+		return nil, err
+	}
 	res, err := l.svcCtx.UserDao.Insert(l.ctx, dao.UserModel{
 		Name:     in.GetUsername(),
 		Mobile:   in.GetMobile(),
 		Gender:   in.GetGender(),
-		Password: in.GetPassword(),
+		Password: string(hash),
 		IsAdmin:  0,
 		Avatar:   "",
 		CreateId: 0,

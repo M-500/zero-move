@@ -19,6 +19,10 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		MaxIdleConns: c.DB.MaxIdleConns,
 		MaxLifetime:  c.DB.MaxLifetime,
 	})
+	err := dao.InitTable(db.DB)
+	if err != nil {
+		panic(err)
+	}
 	return &ServiceContext{
 		Config:  c,
 		DB:      db,

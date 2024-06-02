@@ -5,7 +5,7 @@ Etcd:
   - 127.0.0.1:12379
   Key: user.rpc
 DB:
-  DataSource: "root:root@tcp(127.0.0.1:13316)/mall?parseTime=true&loc=Local"
+  DataSource: "root:root@tcp(127.0.0.1:13316)/qqcc?parseTime=true&loc=Local"
   MaxIdleConns: 10
   MaxOpenConns: 100
   ConnMaxLifetime: 3600
