@@ -27,7 +27,7 @@ services:
     environment:
       - ALLOW_NONE_AUTHENTICATION=yes
     ports:
-      - "123780:2379"
+      - "12378:2379"
   #jaeger链路追踪 — Jaeger for tracing
   jaeger:
     image: jaegertracing/all-in-one:1.42.0

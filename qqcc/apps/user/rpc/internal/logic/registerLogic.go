@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"errors"
 	"qqcc/apps/user/rpc/internal/dao"
 
 	"qqcc/apps/user/rpc/internal/svc"
@@ -34,7 +35,8 @@ func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterRespon
 		Avatar:   "",
 		CreateId: 0,
 	})
-	if err == dao.ErrUserDuplicate {
+	// 好好 我学到了 errors.Is
+	if errors.Is(err, dao.ErrUserDuplicate) {
 		return nil, err
 	}
 	if err != nil {
