@@ -31,7 +31,7 @@ func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterRespon
 	if err != nil {
 		return nil, err
 	}
-	res, err := l.svcCtx.UserDao.Insert(l.ctx, dao.UserModel{
+	uID, err := l.svcCtx.UserDao.Insert(l.ctx, dao.UserModel{
 		Name:     in.GetUsername(),
 		Mobile:   in.GetMobile(),
 		Gender:   in.GetGender(),
@@ -50,7 +50,7 @@ func (l *RegisterLogic) Register(in *user.RegisterRequest) (*user.RegisterRespon
 	}
 
 	return &user.RegisterResponse{
-		Id:       res,
+		Id:       uID,
 		Username: in.GetUsername(),
 		Gender:   in.GetGender(),
 		Mobile:   in.GetMobile(),
