@@ -15,6 +15,8 @@ import (
 
 service BFF {
 	// 获取图片验证码的接口
+	@handler
+	get /api/code () returns()
 	// 用户登录接口
 	@handler Login
 	post /api/user/login (LoginRequest) returns (LoginResponse)

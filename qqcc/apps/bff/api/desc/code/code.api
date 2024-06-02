@@ -1,0 +1,6 @@
+
+type(
+    CodeRespose{
+        CaptchaId string  `json:"captchaId"`
+    }
+)
