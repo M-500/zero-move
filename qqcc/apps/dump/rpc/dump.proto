@@ -5,7 +5,7 @@ package dump;
 option go_package="./dump";
 
 
-service DumpSvc{
+service Dump{
   rpc ParserExcel(ParserRequest)returns (ParserResponse);  // 解析完Excel后充当生产者生产数据到Kafka中  这是一个高并发接口
 
 }

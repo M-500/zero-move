@@ -16,10 +16,6 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-/**
-https://pwmzlkcu3p.feishu.cn/docx/O1u3d9pqWo4sZTx6NTxcOHhknmd
-*/
-
 type ParserExcelLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext

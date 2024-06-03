@@ -18,86 +18,86 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// DumpSvcClient is the client API for DumpSvc service.
+// DumpClient is the client API for Dump service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type DumpSvcClient interface {
+type DumpClient interface {
 	ParserExcel(ctx context.Context, in *ParserRequest, opts ...grpc.CallOption) (*ParserResponse, error)
 }
 
-type dumpSvcClient struct {
+type dumpClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewDumpSvcClient(cc grpc.ClientConnInterface) DumpSvcClient {
-	return &dumpSvcClient{cc}
+func NewDumpClient(cc grpc.ClientConnInterface) DumpClient {
+	return &dumpClient{cc}
 }
 
-func (c *dumpSvcClient) ParserExcel(ctx context.Context, in *ParserRequest, opts ...grpc.CallOption) (*ParserResponse, error) {
+func (c *dumpClient) ParserExcel(ctx context.Context, in *ParserRequest, opts ...grpc.CallOption) (*ParserResponse, error) {
 	out := new(ParserResponse)
-	err := c.cc.Invoke(ctx, "/dump.DumpSvc/ParserExcel", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/dump.Dump/ParserExcel", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// DumpSvcServer is the server API for DumpSvc service.
-// All implementations must embed UnimplementedDumpSvcServer
+// DumpServer is the server API for Dump service.
+// All implementations must embed UnimplementedDumpServer
 // for forward compatibility
-type DumpSvcServer interface {
+type DumpServer interface {
 	ParserExcel(context.Context, *ParserRequest) (*ParserResponse, error)
-	mustEmbedUnimplementedDumpSvcServer()
+	mustEmbedUnimplementedDumpServer()
 }
 
-// UnimplementedDumpSvcServer must be embedded to have forward compatible implementations.
-type UnimplementedDumpSvcServer struct {
+// UnimplementedDumpServer must be embedded to have forward compatible implementations.
+type UnimplementedDumpServer struct {
 }
 
-func (UnimplementedDumpSvcServer) ParserExcel(context.Context, *ParserRequest) (*ParserResponse, error) {
+func (UnimplementedDumpServer) ParserExcel(context.Context, *ParserRequest) (*ParserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ParserExcel not implemented")
 }
-func (UnimplementedDumpSvcServer) mustEmbedUnimplementedDumpSvcServer() {}
+func (UnimplementedDumpServer) mustEmbedUnimplementedDumpServer() {}
 
-// UnsafeDumpSvcServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to DumpSvcServer will
+// UnsafeDumpServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to DumpServer will
 // result in compilation errors.
-type UnsafeDumpSvcServer interface {
-	mustEmbedUnimplementedDumpSvcServer()
+type UnsafeDumpServer interface {
+	mustEmbedUnimplementedDumpServer()
 }
 
-func RegisterDumpSvcServer(s grpc.ServiceRegistrar, srv DumpSvcServer) {
-	s.RegisterService(&DumpSvc_ServiceDesc, srv)
+func RegisterDumpServer(s grpc.ServiceRegistrar, srv DumpServer) {
+	s.RegisterService(&Dump_ServiceDesc, srv)
 }
 
-func _DumpSvc_ParserExcel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Dump_ParserExcel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ParserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DumpSvcServer).ParserExcel(ctx, in)
+		return srv.(DumpServer).ParserExcel(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/dump.DumpSvc/ParserExcel",
+		FullMethod: "/dump.Dump/ParserExcel",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DumpSvcServer).ParserExcel(ctx, req.(*ParserRequest))
+		return srv.(DumpServer).ParserExcel(ctx, req.(*ParserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// DumpSvc_ServiceDesc is the grpc.ServiceDesc for DumpSvc service.
+// Dump_ServiceDesc is the grpc.ServiceDesc for Dump service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var DumpSvc_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "dump.DumpSvc",
-	HandlerType: (*DumpSvcServer)(nil),
+var Dump_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "dump.Dump",
+	HandlerType: (*DumpServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "ParserExcel",
-			Handler:    _DumpSvc_ParserExcel_Handler,
+			Handler:    _Dump_ParserExcel_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

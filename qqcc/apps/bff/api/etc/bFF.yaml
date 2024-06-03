@@ -12,3 +12,9 @@ UserRpc:
     Hosts:
       - 127.0.0.1:12378
     Key: user.rpc
+
+DumpRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:12378
+    Key: dump.rpc

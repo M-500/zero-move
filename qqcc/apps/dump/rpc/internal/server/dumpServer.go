@@ -11,18 +11,18 @@ import (
 	"qqcc/apps/dump/rpc/types/dump"
 )
 
-type DumpSvcServer struct {
+type DumpServer struct {
 	svcCtx *svc.ServiceContext
-	dump.UnimplementedDumpSvcServer
+	dump.UnimplementedDumpServer
 }
 
-func NewDumpSvcServer(svcCtx *svc.ServiceContext) *DumpSvcServer {
-	return &DumpSvcServer{
+func NewDumpServer(svcCtx *svc.ServiceContext) *DumpServer {
+	return &DumpServer{
 		svcCtx: svcCtx,
 	}
 }
 
-func (s *DumpSvcServer) ParserExcel(ctx context.Context, in *dump.ParserRequest) (*dump.ParserResponse, error) {
+func (s *DumpServer) ParserExcel(ctx context.Context, in *dump.ParserRequest) (*dump.ParserResponse, error) {
 	l := logic.NewParserExcelLogic(ctx, s.svcCtx)
 	return l.ParserExcel(in)
 }
