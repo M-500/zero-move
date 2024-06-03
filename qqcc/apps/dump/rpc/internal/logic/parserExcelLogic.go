@@ -7,6 +7,7 @@ import (
 	"os"
 	"qqcc/apps/dump/rpc/internal/repository/dao"
 	"qqcc/apps/dump/rpc/internal/svc"
+	"qqcc/apps/dump/rpc/types"
 	"qqcc/apps/dump/rpc/types/dump"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -41,13 +42,20 @@ func (l *ParserExcelLogic) ParserExcel(in *dump.ParserRequest) (*dump.ParserResp
 		ParseSec:   0,
 		Rows:       0,
 	}
-	_, err = l.svcCtx.ParserDAO.Insert(l.ctx, data)
+
+	id, err := l.svcCtx.ParserDAO.Insert(l.ctx, data)
 	if err != nil {
 		return nil, err
 	}
+
+	fileMsg := types.FileParserMsg{
+		ID:       id,
+		FileName: in.Filename,
+		FilePath: in.Filepath,
+	}
 	// 异步插入kafka中
 	threading.GoSafe(func() {
-		data1, err1 := json.Marshal(data)
+		data1, err1 := json.Marshal(fileMsg)
 		if err1 != nil {
 			l.Logger.Errorf("[Kafka Dump] 序列化消息失败: %+v error: %v", data1, err1)
 			return

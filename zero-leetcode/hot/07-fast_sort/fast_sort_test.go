@@ -2,7 +2,7 @@ package _7_fast_sort
 
 // @Description
 // @Author 代码小学生王木木
-func sortArray(nums []int) []int {
+func QuickSort(nums []int) []int {
 	var quick func(nums []int, left, right int) []int
 	quick = func(nums []int, left, right int) []int {
 		// 递归终止条件
