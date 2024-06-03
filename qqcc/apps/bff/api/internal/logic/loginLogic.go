@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"fmt"
 	"qqcc/apps/user/rpc/types/user"
 	"qqcc/pkg/jwtx"
 	"time"
@@ -28,7 +29,7 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 
 func (l *LoginLogic) Login(req *types.LoginRequest) (resp *types.LoginResponse, err error) {
 	// TODO: 一开始应该校验图片验证码 如果有的话
-
+	fmt.Println(req)
 	res, err := l.svcCtx.UserRpc.Login(l.ctx, &user.LoginRequest{
 		Username: req.Username,
 		Password: req.Password,

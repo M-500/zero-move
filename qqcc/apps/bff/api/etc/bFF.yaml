@@ -1,19 +1,21 @@
 Name: BFF
 Host: 0.0.0.0
 Port: 18181
-
+Timeout: 100000
 
 Auth:
   AccessSecret: uOvKLmVfztaXGpNYd4Z0I1SiT7MweJhl
   AccessExpire: 86400
 
 UserRpc:
+  Timeout: 100000
   Etcd:
     Hosts:
       - 127.0.0.1:12378
     Key: user.rpc
 
 DumpRpc:
+  Timeout: 500000
   Etcd:
     Hosts:
       - 127.0.0.1:12378
