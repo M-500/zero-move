@@ -1,6 +1,6 @@
 Name: BFF
 Host: 0.0.0.0
-Port: 8080
+Port: 18181
 
 
 Auth:
@@ -10,5 +10,5 @@ Auth:
 UserRpc:
   Etcd:
     Hosts:
-      - 127.0.0.1:20001
+      - 127.0.0.1:12378
     Key: user.rpc
