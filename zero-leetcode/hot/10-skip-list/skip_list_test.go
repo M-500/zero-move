@@ -17,15 +17,15 @@ type Node struct {
 	forward []*Node
 }
 
-// Skiplist
+// SkipList
 // @Description: 跳表
-type Skiplist struct {
+type SkipList struct {
 	head  *Node // 头节点
 	level int   // 层高
 }
 
-func Constructor() Skiplist {
-	return Skiplist{
+func Constructor() SkipList {
+	return SkipList{
 		head: &Node{
 			val:     -1,
 			forward: make([]*Node, maxLevel),
@@ -34,7 +34,7 @@ func Constructor() Skiplist {
 	}
 }
 
-func (s Skiplist) randomLevel() int {
+func (s SkipList) randomLevel() int {
 	lv := 1
 	for lv < maxLevel && rand.Float64() < pFactor {
 		lv++
@@ -42,7 +42,7 @@ func (s Skiplist) randomLevel() int {
 	return lv
 }
 
-func (this *Skiplist) Search(target int) bool {
+func (this *SkipList) Search(target int) bool {
 	cur := this.head
 	// 从最高层往下，逐层寻找
 	for i := this.level - 1; i >= 0; i-- {
@@ -56,7 +56,7 @@ func (this *Skiplist) Search(target int) bool {
 	return cur != nil && cur.val == target
 }
 
-func (this *Skiplist) Add(num int) {
+func (this *SkipList) Add(num int) {
 	nodes := make([]*Node, maxLevel)
 	for i := range nodes {
 		nodes[i] = this.head
@@ -80,7 +80,7 @@ func (this *Skiplist) Add(num int) {
 	}
 }
 
-func (this *Skiplist) Erase(num int) bool {
+func (this *SkipList) Erase(num int) bool {
 	update := make([]*Node, maxLevel)
 	curr := this.head
 	for i := this.level - 1; i >= 0; i-- {
@@ -107,7 +107,7 @@ func (this *Skiplist) Erase(num int) bool {
 }
 
 /**
- * Your Skiplist object will be instantiated and called as such:
+ * Your SkipList object will be instantiated and called as such:
  * obj := Constructor();
  * param_1 := obj.Search(target);
  * obj.Add(num);
