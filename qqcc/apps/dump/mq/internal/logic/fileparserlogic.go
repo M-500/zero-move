@@ -17,6 +17,7 @@ type FileParserLogic struct {
 }
 
 func NewFileParserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FileParserLogic {
+
 	return &FileParserLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
@@ -31,11 +32,13 @@ func (l *FileParserLogic) Consume(_, val string) error {
 		logx.Errorf("Consume val: %s error: %v", val, err)
 		return err
 	}
-
 	return l.ParserFile(l.ctx, msg)
 }
 
 func (l *FileParserLogic) ParserFile(ctx context.Context, msg *types.FileParserMsg) error {
+	// 1.去数据库查询是否 重复消费了
+
+	// 2. 开始解析，并插入数据库中
 
 	return nil
 }

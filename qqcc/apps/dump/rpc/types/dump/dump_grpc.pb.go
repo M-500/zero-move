@@ -23,6 +23,8 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DumpClient interface {
 	ParserExcel(ctx context.Context, in *ParserRequest, opts ...grpc.CallOption) (*ParserResponse, error)
+	FindParserJobById(ctx context.Context, in *FindParserJonRequest, opts ...grpc.CallOption) (*FindParserJonResponse, error)
+	UpdateParserJob(ctx context.Context, in *UpdateParserJonRequest, opts ...grpc.CallOption) (*UpdateParserJonResponse, error)
 }
 
 type dumpClient struct {
@@ -42,11 +44,31 @@ func (c *dumpClient) ParserExcel(ctx context.Context, in *ParserRequest, opts ..
 	return out, nil
 }
 
+func (c *dumpClient) FindParserJobById(ctx context.Context, in *FindParserJonRequest, opts ...grpc.CallOption) (*FindParserJonResponse, error) {
+	out := new(FindParserJonResponse)
+	err := c.cc.Invoke(ctx, "/dump.Dump/FindParserJobById", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dumpClient) UpdateParserJob(ctx context.Context, in *UpdateParserJonRequest, opts ...grpc.CallOption) (*UpdateParserJonResponse, error) {
+	out := new(UpdateParserJonResponse)
+	err := c.cc.Invoke(ctx, "/dump.Dump/UpdateParserJob", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DumpServer is the server API for Dump service.
 // All implementations must embed UnimplementedDumpServer
 // for forward compatibility
 type DumpServer interface {
 	ParserExcel(context.Context, *ParserRequest) (*ParserResponse, error)
+	FindParserJobById(context.Context, *FindParserJonRequest) (*FindParserJonResponse, error)
+	UpdateParserJob(context.Context, *UpdateParserJonRequest) (*UpdateParserJonResponse, error)
 	mustEmbedUnimplementedDumpServer()
 }
 
@@ -56,6 +78,12 @@ type UnimplementedDumpServer struct {
 
 func (UnimplementedDumpServer) ParserExcel(context.Context, *ParserRequest) (*ParserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ParserExcel not implemented")
+}
+func (UnimplementedDumpServer) FindParserJobById(context.Context, *FindParserJonRequest) (*FindParserJonResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindParserJobById not implemented")
+}
+func (UnimplementedDumpServer) UpdateParserJob(context.Context, *UpdateParserJonRequest) (*UpdateParserJonResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateParserJob not implemented")
 }
 func (UnimplementedDumpServer) mustEmbedUnimplementedDumpServer() {}
 
@@ -88,6 +116,42 @@ func _Dump_ParserExcel_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Dump_FindParserJobById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindParserJonRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DumpServer).FindParserJobById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/dump.Dump/FindParserJobById",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DumpServer).FindParserJobById(ctx, req.(*FindParserJonRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Dump_UpdateParserJob_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateParserJonRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DumpServer).UpdateParserJob(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/dump.Dump/UpdateParserJob",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DumpServer).UpdateParserJob(ctx, req.(*UpdateParserJonRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Dump_ServiceDesc is the grpc.ServiceDesc for Dump service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -98,6 +162,14 @@ var Dump_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ParserExcel",
 			Handler:    _Dump_ParserExcel_Handler,
+		},
+		{
+			MethodName: "FindParserJobById",
+			Handler:    _Dump_FindParserJobById_Handler,
+		},
+		{
+			MethodName: "UpdateParserJob",
+			Handler:    _Dump_UpdateParserJob_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

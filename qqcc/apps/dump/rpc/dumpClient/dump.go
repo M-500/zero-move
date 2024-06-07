@@ -13,11 +13,17 @@ import (
 )
 
 type (
-	ParserRequest  = dump.ParserRequest
-	ParserResponse = dump.ParserResponse
+	FindParserJonRequest    = dump.FindParserJonRequest
+	FindParserJonResponse   = dump.FindParserJonResponse
+	ParserRequest           = dump.ParserRequest
+	ParserResponse          = dump.ParserResponse
+	UpdateParserJonRequest  = dump.UpdateParserJonRequest
+	UpdateParserJonResponse = dump.UpdateParserJonResponse
 
 	Dump interface {
 		ParserExcel(ctx context.Context, in *ParserRequest, opts ...grpc.CallOption) (*ParserResponse, error)
+		FindParserJobById(ctx context.Context, in *FindParserJonRequest, opts ...grpc.CallOption) (*FindParserJonResponse, error)
+		UpdateParserJob(ctx context.Context, in *UpdateParserJonRequest, opts ...grpc.CallOption) (*UpdateParserJonResponse, error)
 	}
 
 	defaultDump struct {
@@ -34,4 +40,14 @@ func NewDump(cli zrpc.Client) Dump {
 func (m *defaultDump) ParserExcel(ctx context.Context, in *ParserRequest, opts ...grpc.CallOption) (*ParserResponse, error) {
 	client := dump.NewDumpClient(m.cli.Conn())
 	return client.ParserExcel(ctx, in, opts...)
+}
+
+func (m *defaultDump) FindParserJobById(ctx context.Context, in *FindParserJonRequest, opts ...grpc.CallOption) (*FindParserJonResponse, error) {
+	client := dump.NewDumpClient(m.cli.Conn())
+	return client.FindParserJobById(ctx, in, opts...)
+}
+
+func (m *defaultDump) UpdateParserJob(ctx context.Context, in *UpdateParserJonRequest, opts ...grpc.CallOption) (*UpdateParserJonResponse, error) {
+	client := dump.NewDumpClient(m.cli.Conn())
+	return client.UpdateParserJob(ctx, in, opts...)
 }

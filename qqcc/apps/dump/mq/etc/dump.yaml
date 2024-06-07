@@ -3,7 +3,7 @@ Name: mq
 KqConsumerConf:
   Name: file-parser-kq-consumer
   Brokers:
-    - 192.168.1.52:9092
+    - 192.168.1.52:9094
   Group: group-file-parser
   Topic: topic-file-parser-job
   Offset: last

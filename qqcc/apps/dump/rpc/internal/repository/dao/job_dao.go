@@ -10,6 +10,7 @@ import (
 
 type ParserDao interface {
 	Insert(ctx context.Context, data ParseJob) (int64, error)
+	FindById(ctx context.Context, id int64) (ParseJob, error)
 }
 
 type parseDao struct {
@@ -28,4 +29,13 @@ func (p *parseDao) Insert(ctx context.Context, data ParseJob) (int64, error) {
 		return 0, err
 	}
 	return int64(data.ID), err
+}
+
+func (p *parseDao) FindById(ctx context.Context, id int64) (ParseJob, error) {
+	var job ParseJob
+	err := p.DB.WithContext(ctx).Model(&ParseJob{}).Where("id = ?", id).Find(&job).Error
+	if err != nil {
+		return ParseJob{}, err
+	}
+	return job, nil
 }
