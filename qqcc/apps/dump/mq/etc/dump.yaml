@@ -30,7 +30,7 @@ KqCompanyConsumerConf:
     - 192.168.1.52:9094
   Group: group-company-load
   Topic: topic-company-gs-info
-  Offset: last
+  Offset: first  # 可选 first|last 默认 last
   Consumers: 1
   Processors: 1
 BizRedis:
