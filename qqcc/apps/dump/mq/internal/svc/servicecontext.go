@@ -1,13 +1,17 @@
 package svc
 
 import (
+	"github.com/zeromicro/go-zero/zrpc"
 	"qqcc/apps/dump/mq/internal/config"
+	"qqcc/apps/dump/rpc/dumpClient"
+	"qqcc/apps/dump/rpc/types/dump"
 	"qqcc/pkg/gormx"
 )
 
 type ServiceContext struct {
-	Config config.Config
-	DB     *gormx.DBX
+	Config  config.Config
+	DB      *gormx.DBX
+	DumpRpc dump.DumpClient
 	//ArticleModel model.ArticleModel
 	//BizRedis     *redis.Redis
 	//UserRPC      user.User
@@ -23,7 +27,8 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	})
 	// TODO: 是否要初始化表结构
 	return &ServiceContext{
-		Config: c,
-		DB:     db,
+		Config:  c,
+		DumpRpc: dumpClient.NewDump(zrpc.MustNewClient(c.DumpRpc)), // 调用Dump服务用到的接口
+		DB:      db,
 	}
 }

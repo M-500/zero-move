@@ -3,11 +3,13 @@ package logic
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"github.com/zeromicro/go-queue/kq"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/service"
 	"qqcc/apps/dump/mq/internal/svc"
 	"qqcc/apps/dump/mq/internal/types"
+	"qqcc/apps/dump/rpc/types/dump"
 )
 
 type FileParserLogic struct {
@@ -37,7 +39,14 @@ func (l *FileParserLogic) Consume(_, val string) error {
 
 func (l *FileParserLogic) ParserFile(ctx context.Context, msg *types.FileParserMsg) error {
 	// 1.去数据库查询是否 重复消费了
-
+	res, err := l.svcCtx.DumpRpc.FindParserJobById(ctx, &dump.FindParserJonRequest{Id: msg.ID})
+	if err != nil {
+		l.Logger.Errorf("调用Dump服务失败", err)
+		return err
+	}
+	if res.Resolved {
+		return errors.New("文件已经被解析过了！")
+	}
 	// 2. 开始解析，并插入数据库中
 
 	return nil

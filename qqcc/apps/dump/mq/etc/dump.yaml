@@ -1,5 +1,13 @@
 Name: mq
+# 因为要更新job的状态，需要调用RPC服务
+DumpRpc:
+  Timeout: 500000
+  Etcd:
+    Hosts:
+      - 127.0.0.1:12378
+    Key: dump.rpc
 
+# kafka消费者的配置
 KqConsumerConf:
   Name: file-parser-kq-consumer
   Brokers:
