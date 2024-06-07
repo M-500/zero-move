@@ -2,7 +2,9 @@ package logic
 
 import (
 	"context"
+	"encoding/json"
 	"github.com/zeromicro/go-zero/core/logx"
+	"qqcc/apps/dump/domain"
 	"qqcc/apps/dump/mq/internal/svc"
 )
 
@@ -26,10 +28,20 @@ func NewCompanySaveLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Compa
 // Consume
 //
 //	@Description: 消费者程序
-//	@receiver c
-//	@param _
-//	@param val
-//	@return error
 func (c *CompanySaveLogic) Consume(_, val string) error {
+	var msg *domain.EnterpriseBasicDM
+	err := json.Unmarshal([]byte(val), &msg)
+	if err != nil {
+		logx.Errorf("Consume val: %s error: %v", val, err)
+		return err
+	}
+	return c.LoadMsg(c.ctx, msg)
+}
+
+// LoadMsg
+//
+//	@Description: 持久化到DB中
+func (c *CompanySaveLogic) LoadMsg(ctx context.Context, msg *domain.EnterpriseBasicDM) error {
+
 	return nil
 }

@@ -48,5 +48,5 @@ type EnterpriseBasicModel struct {
 }
 
 func (EnterpriseBasicModel) TableName() string {
-	return "eb_enterprise_basic_info"
+	return "qqcc_enterprise_basic_info"
 }

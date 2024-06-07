@@ -33,7 +33,10 @@ KqCompanyConsumerConf:
   Offset: last
   Consumers: 1
   Processors: 1
-
+BizRedis:
+  Host: 127.0.0.1:16379
+  Pass:
+  Type: node
 DB:
   DataSource: "root:root@tcp(127.0.0.1:13317)/qqcc?parseTime=true&loc=Local"
   MaxIdleConns: 10
