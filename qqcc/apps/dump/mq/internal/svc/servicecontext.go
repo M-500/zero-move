@@ -1,6 +1,7 @@
 package svc
 
 import (
+	"github.com/zeromicro/go-queue/kq"
 	"github.com/zeromicro/go-zero/zrpc"
 	"qqcc/apps/dump/mq/internal/config"
 	"qqcc/apps/dump/rpc/dumpClient"
@@ -9,9 +10,10 @@ import (
 )
 
 type ServiceContext struct {
-	Config  config.Config
-	DB      *gormx.DBX
-	DumpRpc dump.DumpClient
+	Config             config.Config
+	DB                 *gormx.DBX
+	DumpRpc            dump.DumpClient
+	GsBasePusherClient *kq.Pusher
 	//ArticleModel model.ArticleModel
 	//BizRedis     *redis.Redis
 	//UserRPC      user.User
@@ -27,8 +29,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	})
 	// TODO: 是否要初始化表结构
 	return &ServiceContext{
-		Config:  c,
-		DumpRpc: dumpClient.NewDump(zrpc.MustNewClient(c.DumpRpc)), // 调用Dump服务用到的接口
-		DB:      db,
+		Config:             c,
+		DumpRpc:            dumpClient.NewDump(zrpc.MustNewClient(c.DumpRpc)), // 调用Dump服务用到的接口
+		DB:                 db,
+		GsBasePusherClient: kq.NewPusher(c.KqCompanyPusherConf.Brokers, c.KqCompanyPusherConf.Topic),
 	}
 }

@@ -17,6 +17,12 @@ KqConsumerConf:
   Offset: last
   Consumers: 1
   Processors: 1
+# 往kafka生产者中发送工商信息数据
+KqCompanyPusherConf:
+  Brokers:
+    - 192.168.1.52:9094
+  # kafka-topics.sh --create --topic topic-company-gs-info --bootstrap-server localhost:9092 --partitions 3 创建topic 3个分区
+  Topic: topic-company-gs-info
 DB:
   DataSource: "root:root@tcp(127.0.0.1:13317)/qqcc?parseTime=true&loc=Local"
   MaxIdleConns: 10

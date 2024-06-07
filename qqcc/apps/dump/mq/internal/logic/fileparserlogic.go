@@ -4,11 +4,11 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"github.com/xuri/excelize/v2"
 	"github.com/zeromicro/go-queue/kq"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/service"
+	"github.com/zeromicro/go-zero/core/threading"
 	"os"
 	"qqcc/apps/dump/domain"
 	"qqcc/apps/dump/mq/internal/svc"
@@ -83,7 +83,18 @@ func (l *FileParserLogic) ParserFile(ctx context.Context, msg *types.FileParserM
 		}
 		// 解析出来的公司信息
 		company := l.parserTitle(titleMap, row)
-		fmt.Println(company)
+		threading.GoSafe(func() {
+			data1, err1 := json.Marshal(company)
+			if err1 != nil {
+				l.Logger.Errorf("[Kafka Company Base info Dump] 序列化消息失败: %+v error: %v", data1, err1)
+				return
+			}
+			err = l.svcCtx.GsBasePusherClient.Push(string(data1))
+			if err != nil {
+				//	能怎么办？只能记录日志啦，还能怎么办
+				l.Logger.Errorf("[Kafka Company Base info Dump] kafka发送消息失败: %s error: %v", data1, err)
+			}
+		})
 	}
 	return nil
 }
@@ -104,6 +115,7 @@ func (l *FileParserLogic) cleanTitle(str string) string {
 	}
 	return str
 }
+
 func (p *FileParserLogic) parserTitle(titleMap map[string]int, row []string) domain.EnterpriseBasicDM {
 	company := domain.EnterpriseBasicDM{}
 	val, ok := titleMap["企业名称"]
@@ -164,6 +176,7 @@ func (p *FileParserLogic) parserTitle(titleMap map[string]int, row []string) dom
 	//}
 	return company
 }
+
 func Consumers(ctx context.Context, svcCtx *svc.ServiceContext) []service.Service {
 	return []service.Service{
 		kq.MustNewQueue(svcCtx.Config.KqConsumerConf, NewFileParserLogic(ctx, svcCtx)),

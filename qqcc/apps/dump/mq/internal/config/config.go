@@ -8,9 +8,13 @@ import (
 
 type Config struct {
 	service.ServiceConf
-	DumpRpc        zrpc.RpcClientConf
-	KqConsumerConf kq.KqConf
-	DB             struct {
+	DumpRpc             zrpc.RpcClientConf
+	KqConsumerConf      kq.KqConf
+	KqCompanyPusherConf struct {
+		Brokers []string
+		Topic   string
+	} // 工商基本信息的生产者
+	DB struct {
 		DataSource   string
 		MaxOpenConns int `json:",default=10"`
 		MaxIdleConns int `json:",default=100"`
