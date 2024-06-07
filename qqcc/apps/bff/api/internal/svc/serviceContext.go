@@ -13,6 +13,7 @@ type ServiceContext struct {
 	Config  config.Config
 	UserRpc user.UserClient
 	DumpRpc dump.DumpClient
+	CapSvc  ICaptchaSvc
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -20,5 +21,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Config:  c,
 		UserRpc: userClient.NewUser(zrpc.MustNewClient(c.UserRpc)),
 		DumpRpc: dumpClient.NewDump(zrpc.MustNewClient(c.DumpRpc)),
+		CapSvc:  NewCaptchaService(),
 	}
 }

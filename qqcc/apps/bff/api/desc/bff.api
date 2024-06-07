@@ -11,12 +11,14 @@ info (
 import (
 	"dump/parser_form.api"
 	"user/user_form.api"
+	"code/code.api"
 )
 
 service BFF {
 	// 获取图片验证码的接口
-	@handler
-	get /api/code () returns()
+	@handler Code
+	get /api/code returns (CodeRespose)
+
 	// 用户登录接口
 	@handler Login
 	post /api/user/login (LoginRequest) returns (LoginResponse)

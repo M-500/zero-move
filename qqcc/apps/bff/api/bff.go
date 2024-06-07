@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/zeromicro/go-zero/rest/httpx"
+	"qqcc/pkg/mdl"
 	"qqcc/pkg/xcode"
 
 	"qqcc/apps/bff/api/internal/config"
@@ -22,9 +23,10 @@ func main() {
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
 
-	server := rest.MustNewServer(c.RestConf)
+	server := rest.MustNewServer(c.RestConf, rest.WithNotAllowedHandler(mdl.NewCorsMiddleware().Handler()))
 	defer server.Stop()
 
+	server.Use(mdl.NewCorsMiddleware().Handle)
 	ctx := svc.NewServiceContext(c)
 	handler.RegisterHandlers(server, ctx)
 

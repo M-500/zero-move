@@ -2,5 +2,6 @@
 type(
     CodeRespose{
         CaptchaId string  `json:"captchaId"`
+        PicPath string `json:"picPath"`
     }
 )

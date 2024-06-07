@@ -29,6 +29,10 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 
 func (l *LoginLogic) Login(req *types.LoginRequest) (resp *types.LoginResponse, err error) {
 	// TODO: 一开始应该校验图片验证码 如果有的话
+	//check := l.svcCtx.CapSvc.CheckCaptcha(req.CaptchaId, req.CaptchaCode, false)
+	//if !check {
+	//	return nil, errors.New("验证码校验失败！")
+	//}
 	fmt.Println(req)
 	res, err := l.svcCtx.UserRpc.Login(l.ctx, &user.LoginRequest{
 		Username: req.Username,
@@ -47,5 +51,7 @@ func (l *LoginLogic) Login(req *types.LoginRequest) (resp *types.LoginResponse, 
 	return &types.LoginResponse{
 		AccessToken:  accessToken,
 		AccessExpire: accessExpire,
+		UserId:       res.Id,
+		UserName:     res.Username,
 	}, nil
 }
