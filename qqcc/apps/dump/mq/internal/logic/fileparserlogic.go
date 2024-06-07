@@ -180,5 +180,6 @@ func (p *FileParserLogic) parserTitle(titleMap map[string]int, row []string) dom
 func Consumers(ctx context.Context, svcCtx *svc.ServiceContext) []service.Service {
 	return []service.Service{
 		kq.MustNewQueue(svcCtx.Config.KqConsumerConf, NewFileParserLogic(ctx, svcCtx)),
+		kq.MustNewQueue(svcCtx.Config.KqCompanyConsumerConf, NewCompanySaveLogic(ctx, svcCtx)),
 	}
 }

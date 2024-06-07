@@ -23,6 +23,17 @@ KqCompanyPusherConf:
     - 192.168.1.52:9094
   # kafka-topics.sh --create --topic topic-company-gs-info --bootstrap-server localhost:9092 --partitions 3 创建topic 3个分区
   Topic: topic-company-gs-info
+# 从工商队列中读取信息的消费者
+KqCompanyConsumerConf:
+  Name: company-load-kq-consumer
+  Brokers:
+    - 192.168.1.52:9094
+  Group: group-company-load
+  Topic: topic-company-gs-info
+  Offset: last
+  Consumers: 1
+  Processors: 1
+
 DB:
   DataSource: "root:root@tcp(127.0.0.1:13317)/qqcc?parseTime=true&loc=Local"
   MaxIdleConns: 10

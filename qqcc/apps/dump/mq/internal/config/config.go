@@ -8,9 +8,10 @@ import (
 
 type Config struct {
 	service.ServiceConf
-	DumpRpc             zrpc.RpcClientConf
-	KqConsumerConf      kq.KqConf
-	KqCompanyPusherConf struct {
+	DumpRpc               zrpc.RpcClientConf
+	KqConsumerConf        kq.KqConf // 消费任务的消费者
+	KqCompanyConsumerConf kq.KqConf // 消费信息的消费者
+	KqCompanyPusherConf   struct {
 		Brokers []string
 		Topic   string
 	} // 工商基本信息的生产者
