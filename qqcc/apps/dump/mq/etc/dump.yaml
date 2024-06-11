@@ -1,14 +1,42 @@
 Name: mq
+# 因为要更新job的状态，需要调用RPC服务
+DumpRpc:
+  Timeout: 500000
+  Etcd:
+    Hosts:
+      - 127.0.0.1:12378
+    Key: dump.rpc
 
+# kafka消费者的配置
 KqConsumerConf:
   Name: file-parser-kq-consumer
   Brokers:
-    - 192.168.1.52:9092
+    - 192.168.1.52:9094
   Group: group-file-parser
   Topic: topic-file-parser-job
   Offset: last
   Consumers: 1
   Processors: 1
+# 往kafka生产者中发送工商信息数据
+KqCompanyPusherConf:
+  Brokers:
+    - 192.168.1.52:9094
+  # kafka-topics.sh --create --topic topic-company-gs-info --bootstrap-server localhost:9092 --partitions 3 创建topic 3个分区
+  Topic: topic-company-gs-info
+# 从工商队列中读取信息的消费者
+KqCompanyConsumerConf:
+  Name: company-load-kq-consumer
+  Brokers:
+    - 192.168.1.52:9094
+  Group: group-company-load
+  Topic: topic-company-gs-info
+  Offset: first  # 可选 first|last 默认 last
+  Consumers: 1
+  Processors: 1
+BizRedis:
+  Host: 127.0.0.1:16379
+  Pass:
+  Type: node
 DB:
   DataSource: "root:root@tcp(127.0.0.1:13317)/qqcc?parseTime=true&loc=Local"
   MaxIdleConns: 10

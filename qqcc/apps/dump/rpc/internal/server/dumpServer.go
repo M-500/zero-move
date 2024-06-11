@@ -26,3 +26,13 @@ func (s *DumpServer) ParserExcel(ctx context.Context, in *dump.ParserRequest) (*
 	l := logic.NewParserExcelLogic(ctx, s.svcCtx)
 	return l.ParserExcel(in)
 }
+
+func (s *DumpServer) FindParserJobById(ctx context.Context, in *dump.FindParserJonRequest) (*dump.FindParserJonResponse, error) {
+	l := logic.NewFindParserJobByIdLogic(ctx, s.svcCtx)
+	return l.FindParserJobById(in)
+}
+
+func (s *DumpServer) UpdateParserJob(ctx context.Context, in *dump.UpdateParserJonRequest) (*dump.UpdateParserJonResponse, error) {
+	l := logic.NewUpdateParserJobLogic(ctx, s.svcCtx)
+	return l.UpdateParserJob(in)
+}

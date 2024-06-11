@@ -7,7 +7,8 @@ option go_package="./dump";
 
 service Dump{
   rpc ParserExcel(ParserRequest)returns (ParserResponse);  // 解析完Excel后充当生产者生产数据到Kafka中  这是一个高并发接口
-
+  rpc FindParserJobById(FindParserJonRequest) returns(FindParserJonResponse); // 通过id获取任务详情
+  rpc UpdateParserJob(UpdateParserJonRequest)returns(UpdateParserJonResponse);  // 修改任务状态
 }
 
 message ParserRequest{
@@ -16,5 +17,30 @@ message ParserRequest{
 }
 
 message ParserResponse{
+
+}
+
+message FindParserJonRequest{
+  int64 id = 1;
+}
+
+message FindParserJonResponse{
+  int64 id = 1;
+  string filepath = 2;
+  double filesize = 3;
+  string mark = 4;
+  bool resolved = 5;
+  int64 rows = 6;
+}
+
+message UpdateParserJonRequest{
+  int64 id = 1;
+  string filepath = 2;
+  double filesize = 3;
+  string mark = 4;
+  bool resolved = 5;
+  int64 rows = 6;
+}
+message UpdateParserJonResponse{
 
 }
