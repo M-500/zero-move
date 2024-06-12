@@ -1,6 +1,7 @@
 package base
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 )
@@ -8,12 +9,12 @@ import (
 // @Description
 // @Author 代码小学生王木木
 
-func add(arr [3]int) {
+func add(arr []int) {
 	arr[0] = 2
 }
 
 func TestSlice(t *testing.T) {
-	arr := [3]int{1, 2, 3}
+	arr := []int{1, 2, 3}
 	add(arr)
 	t.Log(arr, reflect.TypeOf(arr).Kind())
 }
@@ -28,4 +29,13 @@ func TestDemo(t *testing.T) {
 	t.Log(s1)
 	t.Log(s2)
 	t.Log(slice)
+}
+
+func TestDemo2(t *testing.T) {
+	s := make([]int, 0, 2)
+	doSomething1(s)
+	fmt.Println(s)
+}
+func doSomething1(a []int) {
+	a = append(a, 1)
 }
