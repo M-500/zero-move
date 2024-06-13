@@ -36,7 +36,12 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Addr:     c.BizRedis.Host,
 		Password: c.BizRedis.Pass,
 	})
-	entDao := dao.NewEnterpriseDAO(db.DB)
+	esClient := es.MustNewEs(&es.Config{
+		Url:   c.Es.Url,
+		Sniff: c.Es.Sniff,
+	})
+	gormDao := dao.NewEnterpriseDAO(db.DB)
+	esDao := dao.NewEsEnterpriseDao(esClient)
 	// 初始化表结构
 	err := dao.InitTables(db.DB)
 	if err != nil {
@@ -48,10 +53,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		DB:                 db,
 		GsBasePusherClient: kq.NewPusher(c.KqCompanyPusherConf.Brokers, c.KqCompanyPusherConf.Topic),
 		BizRedis:           rdb,
-		EntPriRepo:         repo.NewEnterpriseRepo(entDao),
-		Es: es.MustNewEs(&es.Config{
-			Url:   c.Es.Url,
-			Sniff: c.Es.Sniff,
-		}),
+		EntPriRepo:         repo.NewEnterpriseRepo(gormDao, esDao),
+		Es:                 esClient,
 	}
 }
