@@ -29,3 +29,23 @@ func displayUser(uch <-chan *user) {
 func TestChannelCopy(t *testing.T) {
 
 }
+
+func DoSomething(ch chan struct{}) {
+	for {
+		select {
+		case <-ch:
+			fmt.Println("被通知要结束了")
+			return
+		default:
+			fmt.Println("战斗！爽！")
+			time.Sleep(time.Second)
+		}
+	}
+}
+
+func TestCtrGoroutine(t *testing.T) {
+	ch := make(chan struct{})
+	go DoSomething(ch)
+	time.Sleep(time.Second * 10)
+	ch <- struct{}{}
+}
