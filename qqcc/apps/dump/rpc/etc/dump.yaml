@@ -15,3 +15,9 @@ KqPusherConf:
     - 192.168.1.52:9094
   # kafka-topics.sh --create --topic topic-file-parser-job --bootstrap-server localhost:9092 --partitions 3 创建topic 3个分区
   Topic: topic-file-parser-job
+
+# Prometheus监控
+Prometheus:
+  Host: 0.0.0.0
+  Port: 9112
+  Path: /metrics
