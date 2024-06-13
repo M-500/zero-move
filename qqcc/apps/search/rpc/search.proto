@@ -10,7 +10,7 @@ service SearchSvc{
 }
 
 message NormalSearchRequest{
-
+  string key = 1;
 }
 
 message NormalSearchResponse{

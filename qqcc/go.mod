@@ -7,7 +7,9 @@ require (
 	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/golang/protobuf v1.5.4
 	github.com/mojocn/base64Captcha v1.3.6
+	github.com/olivere/elastic/v7 v7.0.32
 	github.com/pkg/errors v0.9.1
+	github.com/redis/go-redis/v9 v9.4.0
 	github.com/xuri/excelize/v2 v2.8.1
 	github.com/zeromicro/go-queue v1.2.1
 	github.com/zeromicro/go-zero v1.6.5
@@ -64,7 +66,6 @@ require (
 	github.com/prometheus/client_model v0.5.0 // indirect
 	github.com/prometheus/common v0.45.0 // indirect
 	github.com/prometheus/procfs v0.12.0 // indirect
-	github.com/redis/go-redis/v9 v9.4.0 // indirect
 	github.com/richardlehane/mscfb v1.0.4 // indirect
 	github.com/richardlehane/msoleps v1.0.3 // indirect
 	github.com/segmentio/kafka-go v0.4.38 // indirect
