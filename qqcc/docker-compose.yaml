@@ -30,7 +30,7 @@ services:
       - "12378:2379"
   #jaeger链路追踪 — Jaeger for tracing
   jaeger:
-    image: jaegertracing/all-in-one:1.42.0
+    image: jaegertracing/all-in-one:1.57
     container_name: jaeger
     restart: always
     ports:
@@ -45,8 +45,38 @@ services:
       #- SPAN_STORAGE_TYPE=elasticsearch
       #- ES_SERVER_URLS=http://127.0.0.1:9200
       - LOG_LEVEL=debug
+  prometheus:
+    image: prom/prometheus:v2.28.1
+    container_name: prometheus
+    environment:
+      # 时区上海 - Time zone Shanghai (Change if needed)
+      TZ: Asia/Shanghai
+    volumes:
+      - ./deploy/prometheus/server/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./data/prometheus/data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    restart: always
+    user: root
+    ports:
+      - 9090:9090
 
-  #搜集kafka业务日志、存储prometheus监控数据 - Kafka for collecting business logs and storing Prometheus monitoring data
+  #查看prometheus监控数据 - Grafana to view Prometheus monitoring data
+  grafana:
+    image: grafana/grafana:8.0.6
+    container_name: grafana
+    hostname: grafana
+    user: root
+    environment:
+      # 时区上海 - Time zone Shanghai (Change if needed)
+      TZ: Asia/Shanghai
+    restart: always
+    volumes:
+      - ./data/grafana/data:/var/lib/grafana
+    ports:
+      - "3001:3000"
+
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.13.4
     container_name: elasticsearch
