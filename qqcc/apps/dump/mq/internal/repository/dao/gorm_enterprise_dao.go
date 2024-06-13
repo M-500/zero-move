@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"github.com/go-sql-driver/mysql"
-	"go.opentelemetry.io/otel"
 	"gorm.io/gorm"
 )
 
@@ -26,8 +25,6 @@ type enterpriseDAO struct {
 }
 
 func (e *enterpriseDAO) InsertEnterpriseBaseInfo(ctx context.Context, data EnterpriseBasicModel) error {
-	_, span := otel.Tracer("AddEnterpriseBaseInfo").Start(ctx, "InsertEnterpriseBaseInfo")
-	defer span.End()
 	err := e.db.WithContext(ctx).Model(&EnterpriseBasicModel{}).Create(&data).Error
 	if mysqlErr, ok := err.(*mysql.MySQLError); ok {
 		if mysqlErr.Number == uniqueConflictsErrNo {
@@ -35,7 +32,7 @@ func (e *enterpriseDAO) InsertEnterpriseBaseInfo(ctx context.Context, data Enter
 			return ErrEnterpriseDuplicate
 		}
 	}
-	return err
+	return nil
 }
 
 // BatchInsertEnterpriseBaseInfo

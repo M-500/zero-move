@@ -42,6 +42,9 @@ DB:
   MaxIdleConns: 10
   MaxOpenConns: 100
   ConnMaxLifetime: 3600
+Es:
+  Url: http://192.168.1.52:19200/
+  Sniff: false
 
 Prometheus:
   Host: 0.0.0.0

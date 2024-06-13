@@ -1,6 +1,7 @@
 package svc
 
 import (
+	"github.com/olivere/elastic/v7"
 	"github.com/redis/go-redis/v9"
 	"github.com/zeromicro/go-queue/kq"
 	"github.com/zeromicro/go-zero/zrpc"
@@ -9,6 +10,7 @@ import (
 	"qqcc/apps/dump/mq/internal/repository/repo"
 	"qqcc/apps/dump/rpc/dumpClient"
 	"qqcc/apps/dump/rpc/types/dump"
+	"qqcc/pkg/es"
 
 	"qqcc/pkg/gormx"
 )
@@ -20,8 +22,7 @@ type ServiceContext struct {
 	GsBasePusherClient *kq.Pusher
 	BizRedis           redis.Cmdable
 	EntPriRepo         repo.EnterpriseRepo
-	//UserRPC      user.User
-	//Es           *es.Es
+	Es                 *elastic.Client
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -48,5 +49,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		GsBasePusherClient: kq.NewPusher(c.KqCompanyPusherConf.Brokers, c.KqCompanyPusherConf.Topic),
 		BizRedis:           rdb,
 		EntPriRepo:         repo.NewEnterpriseRepo(entDao),
+		Es: es.MustNewEs(&es.Config{
+			Url:   c.Es.Url,
+			Sniff: c.Es.Sniff,
+		}),
 	}
 }

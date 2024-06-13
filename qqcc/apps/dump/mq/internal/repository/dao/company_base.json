@@ -1,0 +1,40 @@
+{
+  "mappings": {
+    "properties": {
+      "id":{
+        "type": "text"
+      },
+      "company_name":{
+        "type": "text",
+        "analyzer": "ik_smart"
+      },
+      "tax_code":{
+        "type": "keyword"
+      },
+      "phone":{
+        "type": "keyword"
+      },
+      "email": {
+        "type": "text"
+      },
+      "boss":{
+        "type": "keyword"
+      },
+      "province":{
+        "type": "text"
+      },
+      "city":{
+        "type": "text"
+      },
+      "reg_date":{
+        "type": "keyword"
+      },
+      "addr":{
+        "type": "text"
+      },
+      "pass_name":{
+        "type": "text"
+      }
+    }
+  }
+}

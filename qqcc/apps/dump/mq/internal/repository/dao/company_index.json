@@ -1,0 +1,23 @@
+# PUT /company_fast_search
+{
+  "mappings": {
+    "properties": {
+      "id":{
+        "type": "keyword"
+      },
+      "company_name":{
+        "type": "text",
+        "analyzer": "ik_smart"
+      },
+      "legal_person":{
+        "type": "keyword"
+      },
+      "logo": {
+        "type": "keyword"
+      },
+      "pass_name":{
+        "type": "text"
+      }
+    }
+  }
+}

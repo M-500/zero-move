@@ -24,10 +24,9 @@ type Config struct {
 	}
 	BizRedis redis.RedisConf
 	//// es config
-	//Es struct {
-	//	Addresses []string
-	//	Username  string
-	//	Password  string
-	//}
+	Es struct {
+		Url   string
+		Sniff bool
+	}
 	//UserRPC zrpc.RpcClientConf
 }
