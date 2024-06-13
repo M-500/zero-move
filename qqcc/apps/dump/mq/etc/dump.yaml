@@ -42,3 +42,8 @@ DB:
   MaxIdleConns: 10
   MaxOpenConns: 100
   ConnMaxLifetime: 3600
+
+Prometheus:
+  Host: 0.0.0.0
+  Port: 9113
+  Path: /metrics

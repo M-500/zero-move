@@ -11,9 +11,9 @@ export default {
   methods: {
     toHome() {
       this.$router.push('/home')
-       },
+    },
     toEdit() {
-       this.$router.push( '/article/edit')
+      this.$router.push('/article/edit')
     },
     handleCommand(command) {
       if (command === "exitSys") {
@@ -25,7 +25,7 @@ export default {
         });
       }
     },
-    logout(){
+    logout() {
       window.sessionStorage.clear()
       window.localStorage.clear();
       // 如果当前界面刷新 那么就会清空vuex的数据
@@ -41,12 +41,12 @@ export default {
     <div class="top-bar">
       <div class="logo">
         <img :src="require('@/assets/logo.svg')" @click="toHome">
-        <div class="navbar-title">话题</div>
-        <div class="navbar-title">文章</div>
+        <div class="navbar-title">高级搜索</div>
+        <div class="navbar-title">导入</div>
       </div>
     </div>
     <div class="show-login">
-      <el-button class="editBtn" size="mini" icon="el-icon-edit" type="primary" @click="toEdit">写文章</el-button>
+      <el-button class="editBtn" size="mini" icon="el-icon-edit" type="primary" @click="toEdit">导入数据</el-button>
       <el-dropdown class="userDrop" @command="handleCommand">
         <div class="avatar-warp">
           <!-- <img class="avatar" :src="cover_image_link" alt="" /> -->
@@ -55,7 +55,7 @@ export default {
           <i class="el-icon-arrow-down el-icon--right"></i>
         </div>
         <el-dropdown-menu>
-           <el-dropdown-item command="userCenter">个人中心</el-dropdown-item>
+          <el-dropdown-item command="userCenter">个人中心</el-dropdown-item>
           <el-dropdown-item command="exitSys">用户退出</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -83,31 +83,31 @@ export default {
     //max-width: 100%;
   }
 }
-.navbar-title{
+.navbar-title {
   font-weight: 700;
   margin-left: 25px;
-  padding: 1.5rem .75rem;
+  padding: 1.5rem 0.75rem;
 }
 .editBtn {
   background-color: #00bbc9;
   border: #00bbc9 1px solid;
 }
-.avatar-warp{
+.avatar-warp {
   display: flex;
   align-items: center;
-  img{
+  img {
     height: 30px;
     border-radius: 50%;
   }
 }
-.show-login{
+.show-login {
   display: flex;
 }
-.userDrop{
+.userDrop {
   margin-left: 20px;
 }
-.avatar-warp{
-  span{
+.avatar-warp {
+  span {
     margin-left: 5px;
   }
 }

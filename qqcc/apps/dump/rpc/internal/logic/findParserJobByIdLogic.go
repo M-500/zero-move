@@ -24,6 +24,7 @@ func NewFindParserJobByIdLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 }
 
 func (l *FindParserJobByIdLogic) FindParserJobById(in *dump.FindParserJonRequest) (*dump.FindParserJonResponse, error) {
+	// 获取任务 通过ID
 	res, err := l.svcCtx.ParserDAO.FindById(l.ctx, in.Id)
 	if err != nil {
 		return nil, err

@@ -37,6 +37,16 @@ scrape_configs:
           job: dump-rpc
           app: dump-rpc
           env: dev
+  # dump服务监控
+  - job_name: 'dump-mq'
+    static_configs:
+      # 目标的采集地址
+      - targets: ["host.docker.internal:9113"]
+        labels:
+          # 自定义标签
+          job: dump-mq
+          app: dump-mq
+          env: dev
 
 #  - job_name: 'order-api'
 #    static_configs:

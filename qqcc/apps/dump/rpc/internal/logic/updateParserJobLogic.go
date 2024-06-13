@@ -24,7 +24,7 @@ func NewUpdateParserJobLogic(ctx context.Context, svcCtx *svc.ServiceContext) *U
 }
 
 func (l *UpdateParserJobLogic) UpdateParserJob(in *dump.UpdateParserJonRequest) (*dump.UpdateParserJonResponse, error) {
-	// todo: add your logic here and delete this line
+	// todo: 更新job的状态
 
 	return &dump.UpdateParserJonResponse{}, nil
 }

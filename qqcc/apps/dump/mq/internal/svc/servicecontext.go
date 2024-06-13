@@ -5,6 +5,8 @@ import (
 	"github.com/zeromicro/go-queue/kq"
 	"github.com/zeromicro/go-zero/zrpc"
 	"qqcc/apps/dump/mq/internal/config"
+	"qqcc/apps/dump/mq/internal/repository/dao"
+	"qqcc/apps/dump/mq/internal/repository/repo"
 	"qqcc/apps/dump/rpc/dumpClient"
 	"qqcc/apps/dump/rpc/types/dump"
 
@@ -17,6 +19,7 @@ type ServiceContext struct {
 	DumpRpc            dump.DumpClient
 	GsBasePusherClient *kq.Pusher
 	BizRedis           redis.Cmdable
+	EntPriRepo         repo.EnterpriseRepo
 	//UserRPC      user.User
 	//Es           *es.Es
 }
@@ -32,12 +35,18 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Addr:     c.BizRedis.Host,
 		Password: c.BizRedis.Pass,
 	})
-	// TODO: 是否要初始化表结构
+	entDao := dao.NewEnterpriseDAO(db.DB)
+	// 初始化表结构
+	err := dao.InitTables(db.DB)
+	if err != nil {
+		panic(err)
+	}
 	return &ServiceContext{
 		Config:             c,
 		DumpRpc:            dumpClient.NewDump(zrpc.MustNewClient(c.DumpRpc)), // 调用Dump服务用到的接口
 		DB:                 db,
 		GsBasePusherClient: kq.NewPusher(c.KqCompanyPusherConf.Brokers, c.KqCompanyPusherConf.Topic),
 		BizRedis:           rdb,
+		EntPriRepo:         repo.NewEnterpriseRepo(entDao),
 	}
 }

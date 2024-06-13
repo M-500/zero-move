@@ -91,7 +91,7 @@ func (l *FileParserLogic) ParserFile(ctx context.Context, msg *types.FileParserM
 			}
 			err = l.svcCtx.GsBasePusherClient.Push(string(data1))
 			if err != nil {
-				//	能怎么办？只能记录日志啦，还能怎么办
+				// 是否要重试？ 重试可以保证数据不丢
 				l.Logger.Errorf("[Kafka Company Base info Dump] kafka发送消息失败: %s error: %v", data1, err)
 			}
 		})
